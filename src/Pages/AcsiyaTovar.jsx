@@ -1,6 +1,10 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { MdOutlineChevronRight, MdOutlineChevronLeft } from "react-icons/md";
+import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useProduct } from "../Context/Contextprovider";
+import { Spin } from "antd";
 
 function AcsiyaTovar() {
   const [data, setData] = useState([]);
@@ -8,6 +12,46 @@ function AcsiyaTovar() {
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const cardsPerPage = 12;
+
+  const { addToBasket, addToFavorite } = useProduct();
+
+  const handlefavorite = (item) => {
+    addToFavorite(item);
+    toast.success("Mahsulot qo'shildi!", {
+      position: "top-right",
+      autoClose: 1000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: false,
+      style: {
+        width: "220px",
+        height: "30px",
+        background: "white",
+        color: "black",
+      },
+      className: "custom-toast",
+    });
+  };
+
+  const handleBasket = (item) => {
+    addToBasket(item);
+    toast.success("Mahsulot qo'shildi!", {
+      position: "top-right",
+      autoClose: 1000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: false,
+      style: {
+        width: "220px",
+        height: "30px",
+        background: "white",
+        color: "black",
+      },
+      className: "custom-toast",
+    });
+  };
 
   useEffect(() => {
     axios
@@ -70,11 +114,13 @@ function AcsiyaTovar() {
                 src="https://s3-alpha-sig.figma.com/img/44cc/088e/418d1f8f8c95ec2634fc51e1fa1bbc54?Expires=1730678400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=SawZtIpaYjY5RJ19tQdph~NwActfce9VFImQqWAmBj5pQHoHZxAo~XoBGfAEzm8CBIYkt2ezK4t7Ayz3siEmCLVKHjdEx24TiPnwRbFlnYjZ9Up5iB8Nz4sOSV-N1oE1dwc0FVU7IKVLxVaE532QsFfWs9MQ8J69gvNAV4EMzAPK622XWYo6mpLBQhN8RrHtxzYOO6aG3yyz3BM7FTQeoMeSlmblpeqA394rC6Ahx998S-y79hD9U4KmNQ421~tS3~uTStvz5Bjyy4~Xqs6oTxBzPTmub5D0n4rCXWjoW70SV3HhichbLBSnGTcPFxvMyzLRQGKaUYoBnNeFHVSu-Q__"
               ></img>
             )}
-            <img
-              src={item.img}
-              alt={item.title}
-              className="w-full h-40 object-contain mb-4"
-            />
+            <Link to={`/details/${item.id}`}>
+              <img
+                src={item.img}
+                alt={item.title}
+                className="w-full h-40 object-contain mb-4"
+              />
+            </Link>
             <h2 className="text-md font-semibold mb-1">{item.title}</h2>
 
             {item.oldPrice && (
@@ -88,6 +134,7 @@ function AcsiyaTovar() {
 
             <div className="flex justify-between items-center space-x-2">
               <button
+                onClick={() => handleBasket(item)}
                 style={{ background: "#FFB12A" }}
                 className="flex-1 text-white font-semibold px-4 py-2 rounded-lg flex items-center justify-center gap-2"
               >
@@ -108,6 +155,7 @@ function AcsiyaTovar() {
                 В корзину
               </button>
               <button
+                onClick={() => handlefavorite(item)}
                 style={{ background: "#FFB12A", color: "white" }}
                 className="border font-semibold px-4 py-2 rounded-lg flex items-center justify-center gap-2"
               >

@@ -8,6 +8,8 @@ import "../App.css";
 import Card from "./Menu/Card";
 import { Button, Checkbox, Col, Form, Input, Modal, Row, Upload } from "antd";
 import { MdKeyboardArrowRight } from "react-icons/md";
+import { useProduct } from "../Context/Contextprovider";
+import { toast } from "react-toastify";
 
 function Details() {
   const { id } = useParams();
@@ -17,6 +19,8 @@ function Details() {
   const [activeIndex, setActiveIndex] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpens, setIsModalOpens] = useState(false);
+
+  const { addToBasket, addToFavorite } = useProduct();
 
   const showModals = () => {
     setIsModalOpens(true);
@@ -62,12 +66,63 @@ function Details() {
     return <p>Yuklanmoqda...</p>;
   }
 
+  const handleBasket = (item) => {
+    addToBasket(item);
+    handleClick(2);
+    toast.success("Mahsulot qo'shildi!", {
+      position: "top-right",
+      autoClose: 1000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: false,
+      style: {
+        width: "220px",
+        height: "30px",
+        background: "white",
+        color: "black",
+      },
+      className: "custom-toast",
+    });
+  };
+
+  const handlefavorite = (item) => {
+    addToFavorite(item);
+    handleClick(3);
+
+    toast.success("Mahsulot qo'shildi!", {
+      position: "top-right",
+      autoClose: 1000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: false,
+      style: {
+        width: "220px",
+        height: "30px",
+        background: "white",
+        color: "black",
+      },
+      className: "custom-toast",
+    });
+  };
+
   const increaseCount = () => {
     setCount((prevCount) => prevCount + 1);
   };
 
   const decreaseCount = () => {
     setCount((prevCount) => (prevCount > 1 ? prevCount - 1 : 1));
+  };
+
+  const handleactiv = () => {
+    handleClick(0);
+    showModal();
+  };
+
+  const handleactiv1 = () => {
+    handleClick(1);
+    showModals();
   };
 
   return (
@@ -113,23 +168,23 @@ function Details() {
           <div className="flex gap-6 items-center mb-6">
             <div className="flex space-x-4">
               <button
-                onClick={() => handleClick(0)}
+                onClick={handleactiv}
                 className={`p-3 detals rounded-lg flex items-center ${
                   activeIndex === 0 ? "acfr" : ""
                 }`}
               >
-                <CiWallet onClick={showModal} className="text-2xl" />
+                <CiWallet className="text-2xl" />
               </button>
               <button
-                onClick={() => handleClick(1)}
+                onClick={handleactiv1}
                 className={`p-3 detals rounded-lg flex items-center ${
                   activeIndex === 1 ? "acfr" : ""
                 }`}
               >
-                <LuCalendarClock onClick={showModals} className="text-2xl" />
+                <LuCalendarClock className="text-2xl" />
               </button>
               <button
-                onClick={() => handleClick(2)}
+                onClick={() => handleBasket(item)}
                 className={`p-3 detals rounded-lg flex items-center ${
                   activeIndex === 2 ? "acfr" : ""
                 }`}
@@ -137,7 +192,7 @@ function Details() {
                 <GiShoppingBag className="text-2xl" />
               </button>
               <button
-                onClick={() => handleClick(3)}
+                onClick={() => handlefavorite(item)}
                 className={`p-3 detals rounded-lg flex items-center ${
                   activeIndex === 3 ? "acfr" : ""
                 }`}

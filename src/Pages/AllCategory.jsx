@@ -29,18 +29,6 @@ function AllCategory() {
     <div className="container_product">
       <div className=" flex justify-between items-center">
         <h1 className=" font-bold text-3xl">Категории</h1>
-        <Link
-          style={{
-            color: "blue",
-            display: "flex",
-            gap: "4px",
-            alignItems: "center",
-          }}
-          to="allcetory"
-        >
-          Все категории
-          <MdOutlineChevronRight />
-        </Link>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-8">
         {data.map((item, index) => (

@@ -3,12 +3,17 @@ import React, { useEffect, useState } from "react";
 import { MdOutlineChevronRight } from "react-icons/md";
 import "../../App.css";
 import { Link, useLocation } from "react-router-dom";
+import { useProduct } from "../../Context/Contextprovider";
+import { toast } from "react-toastify";
+import { Spin } from "antd";
 
-function Card() {
+function Card({ item }) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const locate = useLocation();
+
+  const { addToBasket, addToFavorite } = useProduct();
 
   const digitalPAge = locate.pathname.includes(`/details`);
   useEffect(() => {
@@ -32,6 +37,43 @@ function Card() {
   if (error) {
     return <div className="text-center text-red-500">{error}</div>;
   }
+  const handleBasket = (item) => {
+    addToBasket(item);
+    toast.success("Mahsulot qo'shildi!", {
+      position: "top-right",
+      autoClose: 1000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: false,
+      style: {
+        width: "220px",
+        height: "30px",
+        background: "white",
+        color: "black",
+      },
+      className: "custom-toast",
+    });
+  };
+
+  const handlefavorite = (item) => {
+    addToFavorite(item);
+    toast.success("Mahsulot qo'shildi!", {
+      position: "top-right",
+      autoClose: 1000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: false,
+      style: {
+        width: "220px",
+        height: "30px",
+        background: "white",
+        color: "black",
+      },
+      className: "custom-toast",
+    });
+  };
 
   return (
     <div>
@@ -73,6 +115,7 @@ function Card() {
             <p className="text-lg font-bold mb-4">{item.price} сум</p>
             <div className="flex justify-between items-center space-x-2">
               <button
+                onClick={() => handleBasket(item)}
                 style={{ background: "#FFB12A" }}
                 className="flex-1 text-white font-semibold px-4 py-2 rounded-lg flex items-center justify-center gap-2"
               >
@@ -93,6 +136,7 @@ function Card() {
                 В корзину
               </button>
               <button
+                onClick={() => handlefavorite(item)}
                 style={{ background: "#FFB12A", color: "white" }}
                 className="border font-semibold px-4 py-2 rounded-lg flex items-center justify-center gap-2"
               >

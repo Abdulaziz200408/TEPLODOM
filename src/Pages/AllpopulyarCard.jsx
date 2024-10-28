@@ -3,11 +3,53 @@ import React, { useEffect, useState } from "react";
 import { MdOutlineChevronRight } from "react-icons/md";
 import "../App.css";
 import { Link } from "react-router-dom";
+import { useProduct } from "../Context/Contextprovider";
+import { toast } from "react-toastify";
+import { Spin } from "antd";
 
 function AllpopulyarCard() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { addToBasket, addToFavorite } = useProduct();
+
+  const handlefavorite = (item) => {
+    addToFavorite(item);
+    toast.success("Mahsulot qo'shildi!", {
+      position: "top-right",
+      autoClose: 1000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: false,
+      style: {
+        width: "220px",
+        height: "30px",
+        background: "white",
+        color: "black",
+      },
+      className: "custom-toast",
+    });
+  };
+
+  const handleBasket = (item) => {
+    addToBasket(item);
+    toast.success("Mahsulot qo'shildi!", {
+      position: "top-right",
+      autoClose: 1000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: false,
+      style: {
+        width: "220px",
+        height: "30px",
+        background: "white",
+        color: "black",
+      },
+      className: "custom-toast",
+    });
+  };
 
   useEffect(() => {
     axios
@@ -38,18 +80,6 @@ function AllpopulyarCard() {
       <div className="container_product mt-4">
         <div className=" flex justify-between items-center">
           <h1 className=" font-bold text-3xl">Популярные товары</h1>
-          <Link
-            style={{
-              color: "blue",
-              display: "flex",
-              gap: "4px",
-              alignItems: "center",
-            }}
-            to="allPopulyarCard"
-          >
-            Смотреть все
-            <MdOutlineChevronRight />
-          </Link>
         </div>
       </div>
       <div className="mini_Card grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
@@ -59,15 +89,18 @@ function AllpopulyarCard() {
             className="border rounded-xl shadow-lg p-4 bg-white"
             style={{ width: "280px", margin: "0 auto" }}
           >
-            <img
-              src={item.img} // Corrected to 'thumbnail'
-              alt={item.title}
-              className="w-full h-40 object-contain mb-4"
-            />
+            <Link to={`/details/${item.id}`}>
+              <img
+                src={item.img}
+                alt={item.title}
+                className="w-full h-40 object-contain mb-4"
+              />
+            </Link>
             <h2 className="text-md font-semibold mb-1">{item.title}</h2>
             <p className="text-lg font-bold mb-4">{item.price} сум</p>
             <div className="flex justify-between items-center space-x-2">
               <button
+                onClick={() => handleBasket(item)}
                 style={{ background: "#FFB12A" }}
                 className="flex-1 text-white font-semibold px-4 py-2 rounded-lg flex items-center justify-center gap-2"
               >
@@ -88,6 +121,7 @@ function AllpopulyarCard() {
                 В корзину
               </button>
               <button
+                onClick={() => handlefavorite(item)}
                 style={{ background: "#FFB12A", color: "white" }}
                 className="border font-semibold px-4 py-2 rounded-lg flex items-center justify-center gap-2"
               >
