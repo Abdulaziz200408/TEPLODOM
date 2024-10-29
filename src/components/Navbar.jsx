@@ -26,10 +26,46 @@ function Navbar() {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [products, setProducts] = useState([]);
   const { favorite, basket } = useProduct();
+  const [modal, setmodal] = useState(false);
+
+  const [name, setName] = useState();
+  const [emailOrPhone, setEmailOrPhone] = useState();
+  const [password, setPassword] = useState();
+  const [confirmPassword, setConfirmPassword] = useState();
+  const [agreeToTerms, setAgreeToTerms] = useState();
+
+  const handleNameChange = (e) => {
+    setName(e.target.value);
+    localStorage.setItem("name", e.target.value);
+  };
+
+  const handleEmailOrPhoneChange = (e) => {
+    setEmailOrPhone(e.target.value);
+    localStorage.setItem("emailOrPhone", e.target.value);
+  };
+
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+    localStorage.setItem("password", e.target.value);
+  };
+
+  const handleConfirmPasswordChange = (e) => {
+    setConfirmPassword(e.target.value);
+    localStorage.setItem("confirmPassword", e.target.value);
+  };
+
+  const handleAgreeToTermsChange = (e) => {
+    setAgreeToTerms(e.target.checked);
+    localStorage.setItem("agreeToTerms", e.target.checked);
+  };
   const handleClick = (index) => {
     setActiveIndex(index);
   };
 
+  const toggleForm = () => {
+    setmodal((prevLogin) => !prevLogin);
+    setIsModalOpen(flase);
+  };
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -44,8 +80,11 @@ function Navbar() {
 
   useEffect(() => {
     const user_name = localStorage.getItem("name");
+    const user_email = localStorage.getItem("emailOrPhone");
+    const user_password = localStorage.getItem("password");
+    const confrom_password = localStorage.getItem("confirmPassword");
 
-    if (user_name) {
+    if ((user_name, user_email, user_password, confrom_password)) {
       setuserName(user_name);
     }
   });
@@ -67,6 +106,23 @@ function Navbar() {
     }
   }, [searchTerm, products]);
 
+  const handlesavelogin = () => {
+    toast.success(" siz ro'yxatdan o'tdinggiz", {
+      position: "top-right",
+      autoClose: 1000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: false,
+      style: {
+        width: "220px",
+        height: "30px",
+        background: "white",
+        color: "black",
+      },
+      className: "custom-toast",
+    });
+  };
   return (
     <>
       <header className="container_product">
@@ -333,7 +389,6 @@ function Navbar() {
         {/* login modal */}
         <Modal
           open={isModalOpen}
-          onOk={handleOk}
           onCancel={handleCancel}
           footer={null}
           style={{
@@ -342,68 +397,117 @@ function Navbar() {
           }}
         >
           <h2 className="text-2xl sm:text-3xl font-bold text-center mb-6">
-            Регистрация
+            {login ? "Войти" : "Регистрация"}
           </h2>
+
           <p className="text-center text-sm sm:text-base text-gray-600 mb-4">
-            {login ? "Нет аккаунта" : "Имеет аккаунт?"}
-            <a href="#" className="text-blue-600 hover:underline">
-              {login ? "Войти" : " Регистрация"}
+            {login ? "Нет аккаунта?" : "Уже есть аккаунт?"}
+            <a
+              href="#"
+              onClick={toggleForm}
+              className="text-blue-600 hover:underline ml-1"
+            >
+              {login ? " Регистрация" : "Войти"}
             </a>
           </p>
+
           <form>
-            <div className="mb-4">
-              <label className="block text-sm sm:text-base font-medium text-gray-700">
-                Ваше имя
-              </label>
-              <input
-                type="text"
-                className="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-black focus:border-black"
-                placeholder="Ваше имя"
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-sm sm:text-base font-medium text-gray-700">
-                Электронная почта или номер телефона
-              </label>
-              <input
-                type="text"
-                className="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-black focus:border-black"
-                placeholder="+998 "
-              />
-            </div>
-            <div className="mb-4 relative">
-              <label className="block text-sm sm:text-base font-medium text-gray-700">
-                Пароль
-              </label>
-              <input
-                type="password"
-                className="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-black focus:border-black"
-              />
-            </div>
-            <div className="mb-4 relative">
-              <label className="block text-sm sm:text-base font-medium text-gray-700">
-                Подтвердить пароль
-              </label>
-              <input
-                type="password"
-                className="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-black focus:border-black"
-              />
-            </div>
-            <div className="flex items-center mb-4">
-              <input
-                id="terms"
-                type="checkbox"
-                className="h-4 w-4 text-black border-gray-300 rounded focus:ring-black"
-              />
-              <label
-                htmlFor="terms"
-                className="ml-2 block text-sm sm:text-base text-gray-700"
-              >
-                Я согласен с Условиями и Политикой конфиденциальности
-              </label>
-            </div>
-            <button className="w-full bg-yellow-500 text-white py-2 sm:py-3 rounded-md hover:bg-yellow-600 transition">
-              Регистрация
+            {modal ? (
+              // Login form
+              <>
+                <div className="mb-4">
+                  <label className="block text-sm sm:text-base font-medium text-gray-700">
+                    Электронная почта или номер телефона
+                  </label>
+                  <input
+                    type="text"
+                    className="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-black focus:border-black"
+                    placeholder="+998 "
+                    required
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="block text-sm sm:text-base font-medium text-gray-700">
+                    Пароль
+                  </label>
+                  <input
+                    type="password"
+                    className="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-black focus:border-black"
+                  />
+                </div>
+              </>
+            ) : (
+              // Registratsiya form
+              <>
+                <div className="mb-4">
+                  <label className="block text-sm sm:text-base font-medium text-gray-700">
+                    Ваше имя
+                  </label>
+                  <input
+                    type="text"
+                    value={name}
+                    onChange={handleNameChange}
+                    className="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-black focus:border-black"
+                    placeholder="Ваше имя"
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="block text-sm sm:text-base font-medium text-gray-700">
+                    Электронная почта или номер телефона
+                  </label>
+                  <input
+                    type="text"
+                    value={emailOrPhone}
+                    onChange={handleEmailOrPhoneChange}
+                    className="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-black focus:border-black"
+                    placeholder="+998 "
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="block text-sm sm:text-base font-medium text-gray-700">
+                    Пароль
+                  </label>
+                  <input
+                    type="password"
+                    value={password}
+                    onChange={handlePasswordChange}
+                    className="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-black focus:border-black"
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="block text-sm sm:text-base font-medium text-gray-700">
+                    Подтвердить пароль
+                  </label>
+                  <input
+                    type="password"
+                    value={confirmPassword}
+                    onChange={handleConfirmPasswordChange}
+                    className="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-black focus:border-black"
+                  />
+                </div>
+                <div className="flex items-center mb-4">
+                  <input
+                    id="terms"
+                    type="checkbox"
+                    checked={agreeToTerms}
+                    onChange={handleAgreeToTermsChange}
+                    className="h-4 w-4 text-black border-gray-300 rounded focus:ring-black"
+                  />
+                  <label
+                    htmlFor="terms"
+                    className="ml-2 block text-sm sm:text-base text-gray-700"
+                  >
+                    Я согласен с Условиями и Политикой конфиденциальности
+                  </label>
+                </div>
+              </>
+            )}
+            <button
+              onClick={handlesavelogin}
+              type="submit"
+              className="w-full bg-yellow-500 text-white py-2 sm:py-3 rounded-md hover:bg-yellow-600 transition"
+            >
+              {login ? "Войти" : "Регистрация"}
             </button>
           </form>
         </Modal>

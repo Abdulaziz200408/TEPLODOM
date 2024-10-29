@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { CiHeart, CiWallet } from "react-icons/ci";
 import { LuCalendarClock } from "react-icons/lu";
 import { GiShoppingBag } from "react-icons/gi";
@@ -19,6 +19,8 @@ function Details() {
   const [activeIndex, setActiveIndex] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpens, setIsModalOpens] = useState(false);
+  const [modal, setmodal] = useState(false);
+  const [modal2, setmodal2] = useState(false);
 
   const { addToBasket, addToFavorite } = useProduct();
 
@@ -30,6 +32,9 @@ function Details() {
     setIsModalOpens(false);
   };
 
+  const hendleNext = () => {
+    setmodal((prev) => !prev);
+  };
   const handleCancels = () => {
     setIsModalOpens(false);
   };
@@ -123,6 +128,9 @@ function Details() {
   const handleactiv1 = () => {
     handleClick(1);
     showModals();
+  };
+  const handlenext = () => {
+    setmodal2((prev) => !prev);
   };
 
   return (
@@ -223,171 +231,213 @@ function Details() {
       <Card />
       {/* Оформление заказа */}
       <Modal
-        title={
-          <h1 style={{ fontSize: "28px", fontWeight: "500px" }}>
-            Оформление заказа
-          </h1>
-        }
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
-        footer={[
-          <Button
-            style={{
-              background: "#FFB12A",
-              color: "white",
-              marginTop: "100px",
-            }}
-            key="submit"
-            onClick={handleOk}
-          >
-            Оформление заказа
-          </Button>,
-        ]}
+        footer={null}
         width={800}
-        bodyStyle={{ height: "300px" }}
+        bodyStyle={{ height: "400px" }}
       >
-        <h3
-          style={{
-            fontSize: "17px",
-          }}
-          className=" mt-6 "
-        >
-          {" "}
-          Купить{item.title}
-        </h3>
-        <Row gutter={[16, 16]} className="mt-6">
-          <Col span={12}>
-            <label>Введите Штук</label>
-            <Input className="mt-2" />
-          </Col>
-          <Col span={12}>
-            <label>Введите имя</label>
-            <Input className="mt-2" />
-          </Col>
-          <Col span={12}>
-            <label>Введите город / район</label>
-            <Input className="mt-2" />
-          </Col>
-          <Col span={12}>
-            <label>Введите адресс</label>
-            <Input className="mt-2" />
-          </Col>
-          <Col span={12}>
-            <label>Введите номер телефона</label>
-            <Input className="mt-2" />
-          </Col>
-          <Col span={12}>
-            <label>Введите область</label>
-            <Input className="mt-2" />
-          </Col>
-          <Col span={24}>
-            <label>Введите населённый пункт</label>
-            <Input className="mt-2" />
-          </Col>
-        </Row>
-        <Checkbox style={{ marginTop: "15px" }}>
-          Я согласен с <a href="#">правилами публичной оферты</a>
-        </Checkbox>
+        {modal ? (
+          <div>
+            <div className=" flex justify-center text-center items-center">
+              <div className=" mt-40">
+                <h1 className=" text-4xl">Спасиба за покупка !</h1>
+                <p>Ваш номер заказ №127836</p>
+                <Link to="/">
+                  <Button
+                    style={{
+                      background: "#FFB12A",
+                      color: "white",
+                      marginTop: "10px",
+                    }}
+                    key="submit"
+                    onClick={hendleNext}
+                  >
+                    Главная страница
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <>
+            <h3
+              style={{
+                fontSize: "17px",
+              }}
+              className=" mt-6 "
+            >
+              Купить{item.title}
+            </h3>
+            <Row gutter={[16, 16]} className="mt-6">
+              <Col span={12}>
+                <label>Введите Штук</label>
+                <Input className="mt-2" />
+              </Col>
+              <Col span={12}>
+                <label>Введите имя</label>
+                <Input className="mt-2" />
+              </Col>
+              <Col span={12}>
+                <label>Введите город / район</label>
+                <Input className="mt-2" />
+              </Col>
+              <Col span={12}>
+                <label>Введите адресс</label>
+                <Input className="mt-2" />
+              </Col>
+              <Col span={12}>
+                <label>Введите номер телефона</label>
+                <Input className="mt-2" />
+              </Col>
+              <Col span={12}>
+                <label>Введите область</label>
+                <Input className="mt-2" />
+              </Col>
+              <Col span={24}>
+                <label>Введите населённый пункт</label>
+                <Input className="mt-2" />
+              </Col>
+            </Row>
+            <div className=" flex justify-between items-center">
+              <Checkbox style={{ marginTop: "15px" }}>
+                Я согласен с <a href="#">правилами публичной оферты</a>
+              </Checkbox>
+              <Button
+                style={{
+                  background: "#FFB12A",
+                  color: "white",
+                  marginTop: "25px",
+                }}
+                key="submit"
+                onClick={hendleNext}
+              >
+                Оформление заказа
+              </Button>
+            </div>
+          </>
+        )}
       </Modal>
 
       {/* Личные данные */}
       <Modal
-        title={
-          <h1 style={{ fontSize: "28px", fontWeight: "500px" }}>
-            Личные данные
-          </h1>
-        }
         open={isModalOpens}
         onOk={handleOks}
         onCancel={handleCancels}
-        footer={[
-          <Button
-            style={{
-              background: "#FFB12A",
-              color: "white",
-              marginTop: "40px",
-              display: "flex",
-              gap: "4px",
-              alignItems: "center",
-            }}
-            key="submit"
-            onClick={handleOk}
-          >
-            Следующий <MdKeyboardArrowRight />
-          </Button>,
-        ]}
+        footer={null}
         width={900}
         style={{
-          marginTop: "-50px",
+          marginTop: "-70px",
         }}
-        bodyStyle={{ height: "500px" }}
+        bodyStyle={{ height: "550px" }}
       >
-        <h3 className="mt-6" style={{ fontSize: "17px" }}>
-          ПИНФЛ* Что это?
-        </h3>
-        <Row gutter={[16, 16]} className="mt-6">
-          <Col span={24}>
-            <label>ПИНФЛ*</label>
-            <Input className="mt-2" />
-          </Col>
-          <Col span={4}>
-            <label>Серия*</label>
-            <Input className="mt-2" />
-          </Col>
-          <Col span={10}>
-            <label>Номер паспорта*</label>
-            <Input className="mt-2" />
-          </Col>
-          <Col span={10}>
-            <label>Дата рождения*</label>
-            <Input className="mt-2" />
-          </Col>
-          <Col span={8}>
-            <label>Имя*</label>
-            <Input className="mt-2" />
-          </Col>
-          <Col span={8}>
-            <label>Фамилия*</label>
-            <Input className="mt-2" />
-          </Col>
-          <Col span={8}>
-            <label>Очество*</label>
-            <Input className="mt-2" />
-          </Col>
-          <Col span={12}>
-            <label>Номер телефона</label>
-            <Input className="mt-2" />
-          </Col>
-          <Col span={12}>
-            <label>Дополнительный номер</label>
-            <Input className="mt-2" />
-          </Col>
-          <Col span={8}>
-            <label>Область*</label>
-            <Input className="mt-2" />
-          </Col>
-          <Col span={8}>
-            <label>Город*</label>
-            <Input className="mt-2" />
-          </Col>
-          <Col span={8}>
-            <label>Адрес*</label>
-            <Input className="mt-2" />
-          </Col>
-          <Col span={8}>
-            <label>Фото паспорта с первой страницы</label>
-            <Input type="file" className="mt-2" />
-          </Col>
-          <Col span={8}>
-            <label>Загрузите фото прописки паспорта</label>
-            <Input type="file" title="" className="mt-2" />
-          </Col>
-          <Col span={8}>
-            <label>Загрузите фото лица на фоне паспорта</label>
-            <Input type="file" className="mt-2" />
-          </Col>
-        </Row>
+        {modal2 ? (
+          <>
+            <div>
+              <div className=" flex justify-center text-center items-center">
+                <div className=" mt-52">
+                  <h1 className=" text-4xl">Спасиба за покупка !</h1>
+                  <p>Ваш номер заказ №127836</p>
+                  <Link to="/">
+                    <Button
+                      style={{
+                        background: "#FFB12A",
+                        color: "white",
+                        marginTop: "10px",
+                      }}
+                      key="submit"
+                      onClick={hendleNext}
+                    >
+                      Главная страница
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </>
+        ) : (
+          <>
+            <h3 className="mt-6" style={{ fontSize: "17px" }}>
+              ПИНФЛ* Что это?
+            </h3>
+            <Row gutter={[16, 16]} className="mt-6">
+              <Col span={24}>
+                <label>ПИНФЛ*</label>
+                <Input className="mt-2" />
+              </Col>
+              <Col span={4}>
+                <label>Серия*</label>
+                <Input className="mt-2" />
+              </Col>
+              <Col span={10}>
+                <label>Номер паспорта*</label>
+                <Input className="mt-2" />
+              </Col>
+              <Col span={10}>
+                <label>Дата рождения*</label>
+                <Input className="mt-2" />
+              </Col>
+              <Col span={8}>
+                <label>Имя*</label>
+                <Input className="mt-2" />
+              </Col>
+              <Col span={8}>
+                <label>Фамилия*</label>
+                <Input className="mt-2" />
+              </Col>
+              <Col span={8}>
+                <label>Очество*</label>
+                <Input className="mt-2" />
+              </Col>
+              <Col span={12}>
+                <label>Номер телефона</label>
+                <Input className="mt-2" />
+              </Col>
+              <Col span={12}>
+                <label>Дополнительный номер</label>
+                <Input className="mt-2" />
+              </Col>
+              <Col span={8}>
+                <label>Область*</label>
+                <Input className="mt-2" />
+              </Col>
+              <Col span={8}>
+                <label>Город*</label>
+                <Input className="mt-2" />
+              </Col>
+              <Col span={8}>
+                <label>Адрес*</label>
+                <Input className="mt-2" />
+              </Col>
+              <Col span={8}>
+                <label>Фото паспорта с первой страницы</label>
+                <Input type="file" className="mt-2" />
+              </Col>
+              <Col span={8}>
+                <label>Загрузите фото прописки паспорта</label>
+                <Input type="file" title="" className="mt-2" />
+              </Col>
+              <Col span={8}>
+                <label>Загрузите фото лица на фоне паспорта</label>
+                <Input type="file" className="mt-2" />
+              </Col>
+              <Button
+                style={{
+                  background: "#FFB12A",
+                  color: "white",
+                  display: "flex",
+                  gap: "4px",
+                  alignItems: "center",
+                }}
+                key="submit"
+                onClick={handlenext}
+              >
+                Следующий <MdKeyboardArrowRight />
+              </Button>
+            </Row>
+          </>
+        )}
       </Modal>
     </div>
   );

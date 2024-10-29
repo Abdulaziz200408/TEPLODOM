@@ -12,6 +12,10 @@
   -moz-box-shadow: 1px 4px 17px -5px rgba(34, 60, 80, 0.2);
   box-shadow: 1px 4px 17px -5px rgba(34, 60, 80, 0.2);
 }
+
+input {
+  outline: none !important;
+}
 .crcle_menu {
   background-color: white;
   border-radius: 50%;
@@ -59,6 +63,11 @@
 .acfr {
   background: #ffb12a !important;
   color: white;
+}
+
+.active {
+  color: linear-gradient(180deg, #ffb12a 0%, #ef8100 100%);
+  background-color: white;
 }
 
 .detals {

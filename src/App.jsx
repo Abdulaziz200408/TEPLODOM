@@ -16,6 +16,7 @@ import PopulyarCard from "./Pages/Menu/PopulyarCard";
 import AllCategory from "./Pages/AllCategory";
 import AllpopulyarCard from "./Pages/AllpopulyarCard";
 import Details from "./Pages/Details";
+import Selectcategory from "./Pages/Selectcategory";
 
 function App() {
   return (
@@ -37,6 +38,10 @@ function App() {
           <Route path="PopulyarCard" element={<PopulyarCard />} />
           <Route path="allPopulyarCard" element={<AllpopulyarCard />} />
           <Route path="details/:id" element={<Details />} />
+          <Route
+            path="/selectCategory/:categoryName"
+            element={<Selectcategory />}
+          />
         </Route>
       </Routes>
     </Router>

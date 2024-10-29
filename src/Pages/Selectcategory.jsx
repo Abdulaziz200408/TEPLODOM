@@ -1,19 +1,14 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { MdOutlineChevronRight, MdOutlineChevronLeft } from "react-icons/md";
+import { Link, useParams } from "react-router-dom";
+import axios from "axios";
 import "../App.css";
-import "../App.css";
-import { useProduct } from "../Context/Contextprovider";
 import { toast } from "react-toastify";
-import { Spin } from "antd";
-import { Link } from "react-router-dom";
+import { useProduct } from "../Context/Contextprovider";
 
-function Allcard() {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const cardsPerPage = 20;
+function Selectcategory() {
+  const { categoryName } = useParams();
+  const [categoryData, setCategoryData] = useState([]);
+
   const { addToBasket, addToFavorite } = useProduct();
 
   const handleBasket = (item) => {
@@ -58,42 +53,21 @@ function Allcard() {
     axios
       .get("https://0c7d0caa3768a5b0.mokky.dev/Teplodom")
       .then((res) => {
-        setData(res.data);
-        setLoading(false);
+        const filteredCategory = res.data.filter(
+          (item) => item.category === categoryName
+        );
+        setCategoryData(filteredCategory);
       })
-      .catch((error) => {
-        console.error("Error fetching data: ", error);
-        setError("Error fetching data");
-        setLoading(false);
-      });
-  }, []);
-
-  const indexOfLastCard = currentPage * cardsPerPage;
-  const indexOfFirstCard = indexOfLastCard - cardsPerPage;
-  const currentCards = data.slice(indexOfFirstCard, indexOfLastCard);
-
-  const totalPages = Math.ceil(data.length / cardsPerPage);
-
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
-  if (loading) {
-    return <div className="text-center">Loading...</div>;
-  }
-
-  if (error) {
-    return <div className="text-center text-red-500">{error}</div>;
-  }
+      .catch((err) => console.log(err));
+  }, [categoryName]);
 
   return (
     <div className="container_product">
-      <div>
-        <div className="flex justify-between items-center">
-          <h1 className="font-bold text-3xl">все продукты</h1>
-        </div>
-      </div>
-
-      <div className="mini_card grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4 mt-10">
-        {currentCards.map((item) => (
+      <h1 className="text-2xl font-bold text-start mb-4">
+        {categoryName} Kategoriyasi
+      </h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md: grid-cols-3 lg:grid-cols-4 gap-4">
+        {categoryData.map((item, index) => (
           <div
             key={item.id}
             className="border rounded-xl shadow-lg p-4 bg-white"
@@ -106,6 +80,7 @@ function Allcard() {
                 className="w-full h-40 object-contain mb-4"
               />
             </Link>
+
             <h2 className="text-md font-semibold mb-1">{item.title}</h2>
             <p className="text-lg font-bold mb-4">{item.price} сум</p>
             <div className="flex justify-between items-center space-x-2">
@@ -146,7 +121,7 @@ function Allcard() {
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    d="M18 21.35l-1.45-1.32C5.4 15.36 2 18.28 2 8.5 2 5.42 4.42 3 7.5 3c2.28 0 4.26 1.68 4.5 4.09C18.74 4.68 14.72 3 17 3c3.08 0 5.5 2.42 5.5 5.5 0 3.78-3.4 6.86-8.55 11.54L18 21.35z"
+                    d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c2.28 0 4.26 1.68 4.5 4.09C12.74 4.68 14.72 3 17 3c3.08 0 5.5 2.42 5.5 5.5 0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
                   />
                 </svg>
               </button>
@@ -154,36 +129,8 @@ function Allcard() {
           </div>
         ))}
       </div>
-
-      <div className="flex justify-center mt-6 space-x-2">
-        <button
-          className=" text-black"
-          onClick={() => paginate(currentPage - 1)}
-          disabled={currentPage === 1}
-        >
-          <MdOutlineChevronLeft size={24} />
-        </button>
-        {Array.from({ length: totalPages }, (_, index) => (
-          <button
-            key={index + 1}
-            onClick={() => paginate(index + 1)}
-            className={`px-3 py-1  rounded ${
-              currentPage === index + 1 ? " text-orange-400 " : ""
-            }`}
-          >
-            {index + 1}
-          </button>
-        ))}
-        <button
-          className=" text-black"
-          onClick={() => paginate(currentPage + 1)}
-          disabled={currentPage === totalPages}
-        >
-          <MdOutlineChevronRight size={24} />
-        </button>
-      </div>
     </div>
   );
 }
 
-export default Allcard;
+export default Selectcategory;
