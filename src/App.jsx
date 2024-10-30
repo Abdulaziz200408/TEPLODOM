@@ -17,6 +17,7 @@ import AllCategory from "./Pages/AllCategory";
 import AllpopulyarCard from "./Pages/AllpopulyarCard";
 import Details from "./Pages/Details";
 import Selectcategory from "./Pages/Selectcategory";
+import SearchLayout from "./Pages/searchLayout/SearchLayout";
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
             path="/selectCategory/:categoryName"
             element={<Selectcategory />}
           />
+          <Route path="search" element={<SearchLayout />} />
         </Route>
       </Routes>
     </Router>

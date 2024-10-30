@@ -72,44 +72,45 @@ function Details() {
   }
 
   const handleBasket = (item) => {
-    addToBasket(item);
-    handleClick(2);
-    toast.success("Mahsulot qo'shildi!", {
-      position: "top-right",
-      autoClose: 1000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: false,
-      draggable: false,
-      style: {
-        width: "220px",
-        height: "30px",
-        background: "white",
-        color: "black",
-      },
-      className: "custom-toast",
-    });
+    const isAdded = addToBasket(item);
+    if (isAdded) {
+      toast.success("Mahsulot qo'shildi!", {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        style: {
+          width: "220px",
+          height: "30px",
+          background: "white",
+          color: "black",
+        },
+        className: "custom-toast",
+      });
+    }
   };
 
   const handlefavorite = (item) => {
-    addToFavorite(item);
-    handleClick(3);
-
-    toast.success("Mahsulot qo'shildi!", {
-      position: "top-right",
-      autoClose: 1000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: false,
-      draggable: false,
-      style: {
-        width: "220px",
-        height: "30px",
-        background: "white",
-        color: "black",
-      },
-      className: "custom-toast",
-    });
+    const isAdded = addToFavorite(item);
+    if (isAdded) {
+      toast.success("Mahsulot faqat qo'shildi!", {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        style: {
+          width: "220px",
+          height: "30px",
+          background: "white",
+          color: "black",
+        },
+        className: "custom-toast",
+      });
+    }
   };
 
   const increaseCount = () => {

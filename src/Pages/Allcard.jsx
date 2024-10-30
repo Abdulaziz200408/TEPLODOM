@@ -17,41 +17,45 @@ function Allcard() {
   const { addToBasket, addToFavorite } = useProduct();
 
   const handleBasket = (item) => {
-    addToBasket(item);
-    toast.success("Mahsulot qo'shildi!", {
-      position: "top-right",
-      autoClose: 1000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: false,
-      draggable: false,
-      style: {
-        width: "220px",
-        height: "30px",
-        background: "white",
-        color: "black",
-      },
-      className: "custom-toast",
-    });
+    const isAdded = addToBasket(item);
+    if (isAdded) {
+      toast.success("Mahsulot qo'shildi!", {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        style: {
+          width: "220px",
+          height: "30px",
+          background: "white",
+          color: "black",
+        },
+        className: "custom-toast",
+      });
+    }
   };
 
   const handlefavorite = (item) => {
-    addToFavorite(item);
-    toast.success("Mahsulot qo'shildi!", {
-      position: "top-right",
-      autoClose: 1000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: false,
-      draggable: false,
-      style: {
-        width: "220px",
-        height: "30px",
-        background: "white",
-        color: "black",
-      },
-      className: "custom-toast",
-    });
+    const isAdded = addToFavorite(item);
+    if (isAdded) {
+      toast.success("Mahsulot faqat qo'shildi!", {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        style: {
+          width: "220px",
+          height: "30px",
+          background: "white",
+          color: "black",
+        },
+        className: "custom-toast",
+      });
+    }
   };
 
   useEffect(() => {
@@ -146,7 +150,7 @@ function Allcard() {
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    d="M18 21.35l-1.45-1.32C5.4 15.36 2 18.28 2 8.5 2 5.42 4.42 3 7.5 3c2.28 0 4.26 1.68 4.5 4.09C18.74 4.68 14.72 3 17 3c3.08 0 5.5 2.42 5.5 5.5 0 3.78-3.4 6.86-8.55 11.54L18 21.35z"
+                    d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c2.28 0 4.26 1.68 4.5 4.09C12.74 4.68 14.72 3 17 3c3.08 0 5.5 2.42 5.5 5.5 0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
                   />
                 </svg>
               </button>

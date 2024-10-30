@@ -11,7 +11,7 @@ import {
 import logo from "../Images/logo.png";
 import { IoIosSearch } from "react-icons/io";
 import "../App.css";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { Modal } from "antd";
 import axios from "axios";
 import { useProduct } from "../Context/Contextprovider";
@@ -22,10 +22,17 @@ function Navbar() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [login, setlogin] = useState(false);
   const [activeIndex, setActiveIndex] = useState(null);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [filteredProducts, setFilteredProducts] = useState([]);
-  const [products, setProducts] = useState([]);
-  const { favorite, basket } = useProduct();
+
+  const {
+    favorite,
+    basket,
+    products,
+    setProducts,
+    searchTerm,
+    setSearchTerm,
+    filteredProducts,
+    setFilteredProducts,
+  } = useProduct();
   const [modal, setmodal] = useState(false);
 
   const [name, setName] = useState();
@@ -33,6 +40,8 @@ function Navbar() {
   const [password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
   const [agreeToTerms, setAgreeToTerms] = useState();
+
+  const navigate = useNavigate();
 
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -101,10 +110,11 @@ function Navbar() {
         product.title.toLowerCase().includes(searchTerm.toLowerCase())
       );
       setFilteredProducts(results);
+      navigate("/search");
     } else {
       setFilteredProducts([]);
     }
-  }, [searchTerm, products]);
+  }, [searchTerm, products, navigate]);
 
   const handlesavelogin = () => {
     toast.success(" siz ro'yxatdan o'tdinggiz", {
@@ -179,28 +189,6 @@ function Navbar() {
             </div>
 
             {/* Filtered Products List */}
-            {filteredProducts.length > 0 && (
-              <div className="absolute z-10 w-full bg-white border border-gray-300 shadow-md mt-14 rounded-lg max-h-[400px] overflow-hidden">
-                <div className="overflow-y-auto max-h-[400px] scrollbar-custom">
-                  {filteredProducts.map((product) => (
-                    <Link
-                      key={product.id}
-                      to={`/details/${product.id}`}
-                      onClick={() => setSearchTerm("")}
-                    >
-                      <div className="flex items-center p-2 hover:bg-gray-100 cursor-pointer">
-                        <img
-                          src={product.img}
-                          alt={product.title}
-                          className="w-10 h-10 mr-2 rounded-lg"
-                        />
-                        <span>{product.title}</span>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            )}
           </div>
 
           {/* O‘ng tomon Icon va Profil */}

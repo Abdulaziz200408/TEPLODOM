@@ -38,41 +38,45 @@ function Card({ item }) {
     return <div className="text-center text-red-500">{error}</div>;
   }
   const handleBasket = (item) => {
-    addToBasket(item);
-    toast.success("Mahsulot qo'shildi!", {
-      position: "top-right",
-      autoClose: 1000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: false,
-      draggable: false,
-      style: {
-        width: "220px",
-        height: "30px",
-        background: "white",
-        color: "black",
-      },
-      className: "custom-toast",
-    });
+    const isAdded = addToBasket(item);
+    if (isAdded) {
+      toast.success("Mahsulot qo'shildi!", {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        style: {
+          width: "220px",
+          height: "30px",
+          background: "white",
+          color: "black",
+        },
+        className: "custom-toast",
+      });
+    }
   };
 
   const handlefavorite = (item) => {
-    addToFavorite(item);
-    toast.success("Mahsulot qo'shildi!", {
-      position: "top-right",
-      autoClose: 1000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: false,
-      draggable: false,
-      style: {
-        width: "220px",
-        height: "30px",
-        background: "white",
-        color: "black",
-      },
-      className: "custom-toast",
-    });
+    const isAdded = addToFavorite(item);
+    if (isAdded) {
+      toast.success("Mahsulot faqat qo'shildi!", {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        style: {
+          width: "220px",
+          height: "30px",
+          background: "white",
+          color: "black",
+        },
+        className: "custom-toast",
+      });
+    }
   };
 
   return (

@@ -64,7 +64,7 @@ function Selectcategory() {
   return (
     <div className="container_product">
       <h1 className="text-2xl font-bold text-start mb-4">
-        {categoryName} Kategoriyasi
+        Kategoriy / {categoryName}
       </h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md: grid-cols-3 lg:grid-cols-4 gap-4">
         {categoryData.map((item, index) => (
