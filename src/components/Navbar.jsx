@@ -104,17 +104,30 @@ function Navbar() {
     });
   });
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   if (searchTerm) {
+  //     const results = products.filter((product) =>
+  //       product.title.toLowerCase().includes(searchTerm.toLowerCase())
+  //     );
+  //     setFilteredProducts(results);
+  //     navigate("/search");
+  //   } else {
+  //     setFilteredProducts([]);
+  //   }
+  // }, [searchTerm, products, navigate]);
+
+  const handleSearch = () => {
     if (searchTerm) {
-      const results = products.filter((product) =>
+      const result = products.filter((product) =>
         product.title.toLowerCase().includes(searchTerm.toLowerCase())
       );
-      setFilteredProducts(results);
-      navigate("/search");
+      setFilteredProducts(result);
+      result;
+      navigate(`search`);
     } else {
       setFilteredProducts([]);
     }
-  }, [searchTerm, products, navigate]);
+  };
 
   const handlesavelogin = () => {
     toast.success(" siz ro'yxatdan o'tdinggiz", {
@@ -170,10 +183,12 @@ function Navbar() {
             <div className="relative w-full">
               {/* O'ng tomon Icon */}
               <IoIosSearch
+                onClick={handleSearch}
                 style={{
                   fontSize: "28px",
                   color: "#C4C4C4",
                   position: "absolute",
+                  cursor: "pointer",
                   top: "7px",
                   right: "15px",
                 }}

@@ -18,6 +18,7 @@ import AllpopulyarCard from "./Pages/AllpopulyarCard";
 import Details from "./Pages/Details";
 import Selectcategory from "./Pages/Selectcategory";
 import SearchLayout from "./Pages/searchLayout/SearchLayout";
+import VsesearchProduct from "./Pages/searchLayout/VseSearchproduct";
 
 function App() {
   return (
@@ -25,6 +26,11 @@ function App() {
       <Routes>
         <Route path="/" element={<Rootlayout />}>
           <Route path="/" element={<Menu />} />
+          <Route
+            path="search/vsesearchProduct"
+            element={<VsesearchProduct />}
+          />
+          <Route path="search" element={<SearchLayout />} />
           <Route path="favorites" element={<Favorites />} />
           <Route path="cart" element={<Cart />} />
           <Route path="profil" element={<Profil />} />
@@ -39,11 +45,11 @@ function App() {
           <Route path="PopulyarCard" element={<PopulyarCard />} />
           <Route path="allPopulyarCard" element={<AllpopulyarCard />} />
           <Route path="details/:id" element={<Details />} />
+
           <Route
             path="/selectCategory/:categoryName"
             element={<Selectcategory />}
           />
-          <Route path="search" element={<SearchLayout />} />
         </Route>
       </Routes>
     </Router>

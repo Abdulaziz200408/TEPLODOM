@@ -63,7 +63,7 @@ function Search() {
             gap: "4px",
             alignItems: "center",
           }}
-          to=""
+          to="vsesearchProduct"
         >
           Смотреть все
           <MdOutlineChevronRight />
